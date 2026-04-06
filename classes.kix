@@ -1,0 +1,30 @@
+// classes.kix — KIX MK IV
+class Vector:
+    x: float;
+    y: float;
+
+    fn init(px: float, py: float):
+        self.x = px;
+        self.y = py;
+    end
+
+    fn length() -> float:
+        return sqrt(self.x * self.x + self.y * self.y);
+    end
+
+    fn add(other: Vector) -> Vector:
+        return new Vector(self.x + other.x, self.y + other.y);
+    end
+
+    fn info():
+        print(f"Vector({self.x}, {self.y})  |len| = {self.length()}");
+    end
+end
+
+Vector a = new Vector(3, 4);
+Vector b = new Vector(1, 2);
+a.info();
+b.info();
+
+Vector c = a.add(b);
+c.info();

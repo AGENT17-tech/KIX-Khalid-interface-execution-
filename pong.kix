@@ -1,0 +1,216 @@
+// ═══════════════════════════════════════════════════
+//  PONG.KIX — written in KIX MK IV
+//  Author: Khalid — AGENT17-tech
+//  Controls: W/S = P1   UP/DOWN = P2
+//  Features: score, speed ramp, serve direction
+// ═══════════════════════════════════════════════════
+
+window(800, 600, "KIX PONG — AGENT17");
+fps(60);
+
+// ── Constants ──
+int W        = 800;
+int H        = 600;
+int PW       = 14;
+int PH       = 90;
+int BALL_R   = 10;
+int WIN_SCORE = 5;
+
+// ── Ball ──
+float bx   = 400;
+float by   = 300;
+float bvx  = 5;
+float bvy  = 3;
+float bspd = 5;
+
+// ── Paddles ──
+float p1y  = 255;
+float p2y  = 255;
+int   pspd = 6;
+
+// ── Scores ──
+int score1 = 0;
+int score2 = 0;
+
+// ── State ──
+bool game_over = false;
+int  serve_dir = 1;
+
+// ── Helper: clamp paddle ──
+fn clamp_paddle(y: float) -> float:
+    if y < 0:
+        return 0;
+    end
+    if y > 520:
+        return 520;
+    end
+    return y;
+end
+
+// ── Helper: reset ball ──
+fn reset_ball():
+    bx   = 400;
+    by   = 200 + randint(0, 200);
+    bspd = 5;
+    bvx  = bspd * serve_dir;
+    bvy  = 2 + rand() * 3;
+    if randint(0, 1) == 1:
+        bvy = 0 - bvy;
+    end
+    serve_dir = 0 - serve_dir;
+end
+
+// ── Helper: draw dashed centre line ──
+fn draw_centre():
+    int dy = 0;
+    while dy < 600:
+        rect(397, dy, 6, 14, "gray");
+        dy += 24;
+    end
+end
+
+// ── Helper: draw paddle with glow edge ──
+fn draw_paddle(x: int, y: float, col: str):
+    rect(x, y, PW, PH, col);
+    rect(x, y, 2, PH, "white");
+end
+
+// ── MAIN GAME LOOP ──
+while true:
+
+    clear("black");
+
+    if game_over == false:
+
+        // ── INPUT ──
+        if key("W"):   p1y -= pspd; end
+        if key("S"):   p1y += pspd; end
+        if key("UP"):  p2y -= pspd; end
+        if key("DOWN"):p2y += pspd; end
+
+        p1y = clamp_paddle(p1y);
+        p2y = clamp_paddle(p2y);
+
+        // ── BALL MOVE ──
+        bx += bvx;
+        by += bvy;
+
+        // Wall bounce top / bottom
+        if by < BALL_R:
+            by = BALL_R;
+            bvy = 0 - bvy;
+        end
+        if by > H - BALL_R:
+            by = H - BALL_R;
+            bvy = 0 - bvy;
+        end
+
+        // Paddle 1 collision (left)
+        if bx - BALL_R < 20 + PW:
+            if by > p1y:
+                if by < p1y + PH:
+                    bx  = 20 + PW + BALL_R;
+                    bvx = 0 - bvx;
+                    // angle based on hit position
+                    float rel = (by - p1y) / PH;
+                    bvy = (rel - 0.5) * 8;
+                    bspd += 0.3;
+                    if bvx > 0:
+                        bvx = bspd;
+                    end
+                    if bvx < 0:
+                        bvx = 0 - bspd;
+                    end
+                end
+            end
+        end
+
+        // Paddle 2 collision (right)
+        if bx + BALL_R > W - 20 - PW:
+            if by > p2y:
+                if by < p2y + PH:
+                    bx  = W - 20 - PW - BALL_R;
+                    bvx = 0 - bvx;
+                    float rel = (by - p2y) / PH;
+                    bvy = (rel - 0.5) * 8;
+                    bspd += 0.3;
+                    if bvx > 0:
+                        bvx = bspd;
+                    end
+                    if bvx < 0:
+                        bvx = 0 - bspd;
+                    end
+                end
+            end
+        end
+
+        // ── SCORING ──
+        if bx < 0:
+            score2 += 1;
+            if score2 >= WIN_SCORE:
+                game_over = true;
+            end
+            reset_ball();
+        end
+        if bx > W:
+            score1 += 1;
+            if score1 >= WIN_SCORE:
+                game_over = true;
+            end
+            reset_ball();
+        end
+
+        // ── DRAW ──
+        draw_centre();
+
+        draw_paddle(20,    p1y, "cyan");
+        draw_paddle(W-34,  p2y, "orange");
+
+        // Ball with glow ring
+        circle(bx, by, BALL_R + 4, "gray");
+        circle(bx, by, BALL_R,     "white");
+
+        // Scores
+        text(score1, 220, 24, "cyan",   48);
+        text(score2, 540, 24, "orange", 48);
+
+        // Controls hint
+        text("W/S", 30,  570, "darkgray", 16);
+        text("UP/DOWN", 700, 570, "darkgray", 16);
+
+        
+
+    end
+
+    // ── GAME OVER SCREEN ──
+    if game_over == true:
+        draw_centre();
+        draw_paddle(20,   p1y, "cyan");
+        draw_paddle(W-34, p2y, "orange");
+
+        text(score1, 220, 24, "cyan",   48);
+        text(score2, 540, 24, "orange", 48);
+
+        if score1 >= WIN_SCORE:
+            text("PLAYER 1 WINS", 230, 220, "cyan",   40);
+        end
+        if score2 >= WIN_SCORE:
+            text("PLAYER 2 WINS", 230, 220, "orange", 40);
+        end
+
+        text("press R to restart", 270, 300, "white", 24);
+        text("ESC to quit",        310, 340, "gray",  20);
+        
+
+        if key("R"):
+            score1 = 0;
+            score2 = 0;
+            game_over = false;
+            p1y = 255;
+            p2y = 255;
+            reset_ball();
+        end
+    end
+
+    flip();
+end

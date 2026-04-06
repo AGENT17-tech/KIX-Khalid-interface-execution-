@@ -1,0 +1,13 @@
+.vscodeignore
+.claude/**
+node_modules/**
+package-lock.json
+icon.svg
+*.sh
+*.py
+*.kix
+arrays.kix
+classes.kix
+hello.kix
+pong.kix
+release.sh

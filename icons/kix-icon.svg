@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="4" ry="4" fill="#0d0d0d"/>
+  <!-- Border -->
+  <rect x="0.5" y="0.5" width="31" height="31" rx="3.5" ry="3.5" fill="none" stroke="#00ffff" stroke-width="0.75" opacity="0.6"/>
+  <!-- "K" letter -->
+  <text x="3" y="22" font-family="'Courier New', Courier, monospace" font-size="16" font-weight="bold" fill="#ffffff">KI</text>
+  <!-- "X" letter in cyan -->
+  <text x="20" y="22" font-family="'Courier New', Courier, monospace" font-size="16" font-weight="bold" fill="#00ffff">X</text>
+  <!-- Cyan underline -->
+  <line x1="2" y1="28" x2="30" y2="28" stroke="#00ffff" stroke-width="1.5" opacity="0.8"/>
+</svg>

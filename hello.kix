@@ -1,0 +1,3 @@
+// hello.kix — KIX MK IV
+str name = "Khalid";
+print(f"Hello {name}, welcome to KIX MK IV!");

@@ -1,0 +1,53 @@
+{
+  "name": "kix-language",
+  "displayName": "KIX Language",
+  "description": "Syntax highlighting and language support for KIX MK IV — by AGENT17-tech",
+  "version": "1.0.0",
+  "publisher": "AGENT17-tech",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AGENT17-tech/kix"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "kix",
+        "aliases": [
+          "KIX",
+          "kix"
+        ],
+        "extensions": [
+          ".kix"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/kix-icon.svg",
+          "dark": "./icons/kix-icon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "kix",
+        "scopeName": "source.kix",
+        "path": "./syntaxes/kix.tmLanguage.json"
+      }
+    ],
+    "icons": {
+      "kix-lang-icon": {
+        "description": "KIX language icon",
+        "default": {
+          "fontPath": "./icons/kix-language-icon.svg",
+          "fontCharacter": "K"
+        }
+      }
+    }
+  }
+}

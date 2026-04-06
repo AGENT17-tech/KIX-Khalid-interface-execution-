@@ -1,0 +1,12 @@
+// arrays.kix — KIX MK IV
+arr scores = [95, 82, 76, 100, 88];
+int total = 0;
+for s in scores:
+    total += s;
+end
+float avg = total / scores.len();
+print(f"Average score: {avg}");
+scores.push(99);
+print(f"After push, len = {scores.len()}");
+scores.reverse();
+print(scores.join(", "));
