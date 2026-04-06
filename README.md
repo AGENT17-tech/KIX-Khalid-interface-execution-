@@ -286,5 +286,5 @@ MIT — build whatever you want with it.
 
 ---
 
-*Built as Side Quest #2 of the PHANTOM ZERO protocol.*  
+*Built as Side Quest #2*  
 *"If Tony Stark built a language, it would be KIX."*
